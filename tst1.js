@@ -4,6 +4,20 @@ const client = new Discord.Client();
 const config = require("./config.json");
 client.config = config;
 
+client.on("message", (message) => {
+  if (message.content.endsWith("quoi") 
+  || message.content.endsWith("quoi ?") 
+  || message.content.endsWith("quoi ??") 
+  || message.content.endsWith("quoi ???") 
+  || message.content.endsWith("quoi ????") 
+  || message.content.endsWith("quoi?") 
+  || message.content.endsWith("quoi??")
+  || message.content.endsWith("quoi???")
+  || message.content.endsWith("quoi????")) {
+    message.channel.send("feur");
+  }
+});
+
 fs.readdir("./events/", (err, files) => {
   if (err) return console.error(err);
   files.forEach(file => {
