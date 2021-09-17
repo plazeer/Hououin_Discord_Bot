@@ -37,10 +37,5 @@ exports.run = async (client, message, args) => {
                     message.channel.stopTyping();
                     }, 500);
             }; 
-		});
-
-		//end the collecting and show the amount of collected messages
-		collector.on('end', collected => {
-			console.log(`Collected ${collected.size} items`);
-		});
-	};
+	});
+};
