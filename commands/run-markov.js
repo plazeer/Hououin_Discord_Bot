@@ -14,7 +14,7 @@ exports.run = async (client, message, args) => {
 		return !msg.content.includes('&') && !msg.author.bot };
 
 		//bot filter and 24hrs
-		const collector = message.channel.createMessageCollector(filter, { time: 86400000 });
+		const collector = message.channel.createMessageCollector(filter);
 		
 		console.log("Collecting");
 
