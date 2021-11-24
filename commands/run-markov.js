@@ -16,7 +16,7 @@ exports.run = async (client, message, args) => {
 		//bot filter and 24hrs
 		const collector = message.channel.createMessageCollector(filter);
 		
-		console.log("Collecting");
+		console.log("Collecting pour markov");
 
 		//collector on show the words collected in the console and adds them in a file splitted by a |
 		collector.on('collect', msg => {
