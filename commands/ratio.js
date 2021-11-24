@@ -3,7 +3,7 @@ exports.run = (client, message, args) => {
 
     // all variables
     const fs = require("fs");
-    let words = ['ratio', 'ratio bozo', 'ratio dans ta mere bouffon', 'ratio + pas lu', 'tg ratio', 'https://tenor.com/view/ratiobozo-ratio-gif-23500921', 'https://tenor.com/view/zyzz-ratio-gif-22822910', 'https://tenor.com/view/ratio-twitter-matt-tera-gif-23391300', 'https://tenor.com/view/smt-nocturne-shin-megami-tensei-metatron-fire-of-sinai-gif-21973114', 'https://tenor.com/view/ratio-moyai-moai-gif-23067679','megaratio', 'cringe + ratio', "ratio'd"]
+    let words = ['ratio', 'ratio bozo', 'ratio dans ta mere bouffon', 'ratio + pas lu', 'tg ratio', 'https://tenor.com/view/ratiobozo-ratio-gif-23500921', 'https://tenor.com/view/zyzz-ratio-gif-22822910', 'https://tenor.com/view/ratio-twitter-matt-tera-gif-23391300', 'https://tenor.com/view/smt-nocturne-shin-megami-tensei-metatron-fire-of-sinai-gif-21973114', 'https://tenor.com/view/ratio-moyai-moai-gif-23067679','megaratio', 'cringe + ratio', "ratio'd", 'https://imgur.com/vbgSS4F']
     let max = words.length
     let cap = args.slice(0, 1).join(' ');
     if (!cap) return message.channel.send("Pas de chiffre");
