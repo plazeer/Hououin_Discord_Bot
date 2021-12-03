@@ -1,4 +1,3 @@
-exports.run = async (client, message, args) => {
-    const msg = await message.channel.send("waiting.");
-    msg.edit(`${msg.createdTimestamp - message.createdTimestamp}ms.`);
-}
+exports.run = (client, message, args) => {
+    message.channel.send(`Latency is ${message.createdTimestamp - Date.now()}ms.`);
+};

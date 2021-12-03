@@ -3,7 +3,6 @@ exports.run = async (client, message, args) => {
     if (!args[0]) return message.channel.send('pas de nombre');
     var nombre = args[0];
     var n = parseInt(nombre)+1;
-    message.delete();
     message.channel.bulkDelete(n, true)
     message.channel.send(nombre+" messages supprimés");
 }
