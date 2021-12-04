@@ -14,7 +14,7 @@ exports.run = (client, message, args) => {
     
     if (cooldown.has(member)) {
         message.channel.send("attend bozo");
-
+        message.delete();
     } 
     else 
     {
