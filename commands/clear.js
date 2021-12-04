@@ -5,4 +5,8 @@ exports.run = async (client, message, args) => {
     var n = parseInt(nombre)+1;
     message.channel.bulkDelete(n, true)
     message.channel.send(nombre+" messages supprimés");
+    setTimeout(() => {
+        message.channel.bulkDelete(1, true)
+    }, 1);
+
 }
