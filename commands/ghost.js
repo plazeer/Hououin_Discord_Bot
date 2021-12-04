@@ -22,6 +22,9 @@ exports.run = (client, message, args) => {
         message.delete();
         cooldown.add(member);
         setTimeout(() => {
+            message.channel.bulkDelete(1, true)
+        }, 1);
+        setTimeout(() => {
             cooldown.delete(member);
         }, 600000);
     }
