@@ -30,7 +30,11 @@ exports.run = async (client, message, args) => {
   }, {
     name: 'say',
   value: "Le bot envoie le contenu du message que vous avez ecrit et supprime le votre, exemple : \n `&say hououin t'es qu'un gros con`\nce message va etre supprimé et le bot va envoyer : \n `hououin t'es qu'un gros con`"
-  })
+  }, {
+    name: 'pfp',
+  value: "Envoie la photo de profile de l'utilisateur mentionné"
+  }
+  )
   .setTimestamp();
 
 message.channel.send(embed);
