@@ -29,7 +29,7 @@ exports.run = async (client, message, args) => {
     value: "A envoyer si le message au dessus du votre est dangereusement `mensonger`"
   }, {
     name: 'say',
-  value: "Le bot envoie le contenu du message que vous avez ecrit et supprime le votre, exemple : \n `&say hououin t'es qu'un gros con`\nce message va etre supprimer et le bot va envoyer : \n `hououin t'es qu'un gros con`"
+  value: "Le bot envoie le contenu du message que vous avez ecrit et supprime le votre, exemple : \n `&say hououin t'es qu'un gros con`\nce message va etre supprimé et le bot va envoyer : \n `hououin t'es qu'un gros con`"
   })
   .setTimestamp();
 
