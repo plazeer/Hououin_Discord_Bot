@@ -1,4 +1,5 @@
 exports.run = async (client, message, args) => {
+    if (!args[0]) return message.channel.send("Faut mentionner")
     const { MessageEmbed } = require('discord.js');
     let id = await message.mentions.members.first().id;
     let username = client.users.cache.find(user => user.id === id)
