@@ -24,6 +24,6 @@ exports.run = (client, message, args) => {
             cooldown.delete(member);
         }, 600000);
     } else if (!args[0]) {
-        message.channel.send("mentionne qlq")
+        message.channel.send("&tg mention + phrase")
     }
 }
