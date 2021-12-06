@@ -33,6 +33,9 @@ exports.run = async (client, message, args) => {
   }, {
     name: 'pfp',
   value: "Envoie la photo de profile de l'utilisateur mentionné"
+  }, {
+    name: 'tg',
+    value: "Attention... &tg `mention` `phrase`"
   }
   )
   .setTimestamp();
