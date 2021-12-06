@@ -1,12 +1,12 @@
 exports.run = async (client, message, args) => {
-	if (!message.member.hasPermission("MANAGE_ROLES")) return message.channel.send("You don't have permission to use this command.");
+	if (!message.member.hasPermission("MANAGE_ROLES")) return message.channel.send("T'as pas les perms");
 
 		// all variables
 		const fs = require("fs");
         const MarkovChain = require('purpl-markov-chain');
         const chain = new MarkovChain();
         let cap = args.slice(0, 1).join(' ');
-        if (!cap) return message.channel.send("Enter a % of chance for markov to answer a message.");
+        if (!cap) return message.channel.send("entre un % pour que le bot renvoie une chaine de markov");
         message.channel.send(`${cap}% de chance que markov envoie un message en retour`);
 
         //define the filter for the collector here it excludes messages that start with the prefix and are from the bot

@@ -1,5 +1,5 @@
 exports.run = (client, message, args) => {
-    if (!message.member.hasPermission("MANAGE_ROLES")) return message.channel.send("You don't have permission to use this command.");
+    if (!message.member.hasPermission("MANAGE_ROLES")) return message.channel.send("T'as pas les perms");
 
     // all variables
     const fs = require("fs");

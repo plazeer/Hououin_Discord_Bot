@@ -1,12 +1,12 @@
 exports.run = (client, message, args ) => {
     
-    if (!args) return message.channel.send('Provide a command to reload');
+    if (!args) return message.channel.send('Met une commande a reload');
     let commandName = args[0];
-    if (!client.commands.has(commandName)) return message.channel.send("This command doesn't exist");
+    if (!client.commands.has(commandName)) return message.channel.send("La commande existe pas");
     delete require.cache[require.resolve(`./${commandName}.js`)];   
     client.commands.delete(commandName);
     let props = require(`./${commandName}.js`);
     client.commands.set(commandName, props);
-    message.channel.send(`${commandName} has been reloaded`)
+    message.channel.send(`${commandName} a été reload`)
 
 }
