@@ -35,7 +35,7 @@ exports.run = async (client, message, args) => {
                 setTimeout(() => {
                     message.channel.send(msg);
                     message.channel.stopTyping();
-                    }, 500);
+                    }, 1000);
             }; 
 	});
 };

@@ -11,5 +11,9 @@ liste.forEach(string => chain.update(`${string}`));
 //generate the chain having 2 words minimum used from the strings
 const msg = chain.generate({grams: 2})
 //send the chain in the channel
-message.channel.send(msg);
+message.channel.startTyping();
+setTimeout(() => {
+    message.channel.send(msg);
+    message.channel.stopTyping();
+    }, 1000);
 }
