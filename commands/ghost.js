@@ -1,13 +1,12 @@
 const cooldown = new Set();
-exports.run = (client, message, args) => {
+exports.run = async (client, message, args) => {
     const member = message.author.id;
     const list = client.guilds.cache.get("584833650193858814");
-    list.members.fetch()
+    await list.members.fetch()
     const M = list.members.cache.map(membre => membre.id);    
     max = M.length;
     random = Math.floor(Math.random() * max);
     let picked = M.slice(random,random+1);
-    
     if (cooldown.has(member)) {
         message.channel.send("attend bozo");
         message.delete();

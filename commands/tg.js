@@ -1,6 +1,10 @@
 const cooldown = new Set();
-exports.run = (client, message, args) => {
+exports.run = async (client, message, args) => {
     const member = message.author.id;
+    for (let i = 0; i < 3; i++) {
+        const list = client.guilds.cache.get("584833650193858814");
+        await list.members.fetch()
+    }
     if (cooldown.has(member)) {
         message.channel.send("Spamo no")
     } else if (message.mentions.members.first()) {
