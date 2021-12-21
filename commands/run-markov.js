@@ -15,7 +15,7 @@ exports.run = async (client, message, args) => {
 		const filter = msg => {
 		return !msg.content.includes('&') && !msg.author.bot 
         };
-
+        console.log("markov on");
         const collector = message.channel.createMessageCollector(filter);
 		collector.on('collect', msg => {
             random = Math.floor(Math.random() * 100);
