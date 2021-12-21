@@ -20,9 +20,9 @@ exports.run = async (client, message, args) => {
 		collector.on('collect', msg => {
             random = Math.floor(Math.random() * 100);
             //l'owner peut mettre fin a la commande avec "end"
-            if (msg.content = "markov.end" && msg.author.id === client.config.ownerID) {
+            if (msg.content === "markov.end" && msg.author.id === client.config.ownerID) {
                 collector.stop();
-                console.log("fin du collector")
+               console.log("fin du collector")
             }
             //le bot envoie un message si random est inferieur au chiffre entrer au debut de la commande
             if (random < cap) {

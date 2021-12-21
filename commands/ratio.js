@@ -19,7 +19,7 @@ exports.run = (client, message, args) => {
     collector.on('collect', msg => {
         random = Math.floor(Math.random() * 100);
         //l'owner peut mettre fin a la commande avec "end"
-        if (msg.content = "ratio.end" && msg.author.id === client.config.ownerID) {
+        if (msg.content === "ratio.end" && msg.author.id === client.config.ownerID) {
             collector.stop();
             console.log("fin du collector");
         };
