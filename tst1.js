@@ -8,6 +8,8 @@ client.config = config;
 client.on("message", function (message) {
   if (message.author.bot) return;
   if (message.content.startsWith('&')) return;
+  if (message.content === "ratio.end") return;
+  if (message.content === "markov.end") return;
   const d = new Date()
   var time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
   const fs = require("fs");
