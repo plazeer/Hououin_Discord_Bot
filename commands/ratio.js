@@ -9,20 +9,22 @@ exports.run = (client, message, args) => {
     if (!cap) return message.channel.send("Pas de chiffre");
     message.channel.send(`${cap}% de ratio`);
 
-    //define the filter for the collector here it excludes messages that start with the prefix and are from the bot
+    //filtre qui exclu les messages des bots et les commandes
     const filter = msg => {
     return !msg.content.includes('&') && !msg.author.bot };
 
-    //bot filter and 24hrs
     const collector = message.channel.createMessageCollector(filter);
-    
     console.log("ratio machine on");
 
-    //collector on show the words collected in the console and adds them in a file splitted by a |
     collector.on('collect', msg => {
         random = Math.floor(Math.random() * 100);
-        //the bot sends a message if the random number is above what we chose in the args
-        if (random < cap) {
+        //l'owner peut mettre fin a la commande avec "end"
+        if (msg.content = "ratio.end" && msg.author.id === client.config.ownerID) {
+            collector.stop();
+            console.log("fin du collector");
+        };
+            //le bot envoie un message si random est inferieur au chiffre entrer au debut de la commande
+            if (random < cap) {
             random = Math.floor(Math.random() * max);
             plusone = random+1;
             let picked = words.slice(random,plusone);

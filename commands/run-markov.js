@@ -1,7 +1,9 @@
+const { config } = require("process");
+
 exports.run = async (client, message, args) => {
 	if (!message.member.hasPermission("MANAGE_ROLES")) return message.channel.send("T'as pas les perms");
 
-		// all variables
+		//variables
 		const fs = require("fs");
         const MarkovChain = require('purpl-markov-chain');
         const chain = new MarkovChain();
@@ -9,23 +11,20 @@ exports.run = async (client, message, args) => {
         if (!cap) return message.channel.send("entre un % pour que le bot renvoie une chaine de markov");
         message.channel.send(`${cap}% de chance que markov envoie un message en retour`);
 
-        //define the filter for the collector here it excludes messages that start with the prefix and are from the bot
+        //filtre qui exclu les messages des bots et les commandes
 		const filter = msg => {
-		return !msg.content.includes('&') && !msg.author.bot };
+		return !msg.content.includes('&') && !msg.author.bot 
+        };
 
-		//bot filter and 24hrs
-		const collector = message.channel.createMessageCollector(filter);
-		
-		console.log("Collecting pour markov");
-
-		//collector on show the words collected in the console and adds them in a file splitted by a |
+        const collector = message.channel.createMessageCollector(filter);
 		collector.on('collect', msg => {
-			console.log(`Collected ${msg.content}`);
-			let word = msg.content;
-			fs.appendFileSync('data.txt', word+"|");
             random = Math.floor(Math.random() * 100);
-
-            //the bot sends a message if the random number is above what we chose in the args
+            //l'owner peut mettre fin a la commande avec "end"
+            if (msg.content = "markov.end" && msg.author.id === client.config.ownerID) {
+                collector.stop();
+                console.log("fin du collector")
+            }
+            //le bot envoie un message si random est inferieur au chiffre entrer au debut de la commande
             if (random < cap) {
                 file = fs.readFileSync('data.txt', 'utf8');
                 liste = file.split("|");

@@ -1,3 +1,4 @@
+//message event pour les commandes
 module.exports = (client, message) => {
     if (message.author.bot) return;
   

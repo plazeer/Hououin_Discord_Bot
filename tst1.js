@@ -4,18 +4,31 @@ const client = new Discord.Client();
 const config = require("./config.json");
 client.config = config;
 
-client.on("message", (message) => {
-  if (message.content.endsWith("quoi") 
-  || message.content.endsWith("quoi ?") 
-  || message.content.endsWith("quoi ??") 
-  || message.content.endsWith("quoi ???") 
-  || message.content.endsWith("quoi ????") 
-  || message.content.endsWith("quoi?") 
-  || message.content.endsWith("quoi??")
-  || message.content.endsWith("quoi???")
-  || message.content.endsWith("quoi????")) {
-    message.channel.send("feur");
-  }
+//markov collector
+client.on("message", function (message) {
+  if (message.author.bot) return;
+  if (message.content.startsWith('&')) return;
+  const d = new Date()
+  var time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+  const fs = require("fs");
+  let word = message.content
+  fs.appendFileSync('data.txt', word+"|");
+  fs.appendFileSync('markovlog.txt', word+" | a été ajouté dans la base de données le "+d.toLocaleDateString('fr-FR')+" "+time+"\n");
+});
+
+client.on("message", function (message) {
+  if (message.content.startsWith('&')) return;
+  if (message.content.toLowerCase().endsWith("quoi") 
+      || message.content.toLowerCase().endsWith("quoi ?") 
+      || message.content.toLowerCase().endsWith("quoi ??") 
+      || message.content.toLowerCase().endsWith("quoi ???") 
+      || message.content.toLowerCase().endsWith("quoi?") 
+      || message.content.toLowerCase().endsWith("quoi??")
+      || message.content.toLowerCase().endsWith("quoi???")
+      || message.content.toLowerCase().endsWith("pourquoi")
+      || message.content.toLowerCase().endsWith("pourquoi?")
+      || message.content.toLowerCase().endsWith("pourquoi ?"))
+  message.channel.send("feur");
 });
 
 fs.readdir("./events/", (err, files) => {
