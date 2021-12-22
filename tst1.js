@@ -6,6 +6,8 @@ client.config = config;
 
 //markov collector
 client.on("message", function (message) {
+  if (message.content.includes("@everyone") || message.content.includes("@here")) return;
+  if (message.channel.id !== "584833651389366369") return;
   if (message.author.bot) return;
   if (message.content.startsWith('&')) return;
   if (message.content === "ratio.end") return;

@@ -36,6 +36,9 @@ exports.run = async (client, message, args) => {
   }, {
     name: 'tg',
     value: "Attention... &tg `mention` `phrase`"
+  }, {
+    name: 'fart',
+    value: "prout"
   }
   )
   .setTimestamp();

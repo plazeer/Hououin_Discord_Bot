@@ -1,5 +1,5 @@
 exports.run = (client, message, args ) => {
-    
+    if (message.author.id !== client.config.ownerID) return;
     if (!args) return message.channel.send('Met une commande a reload');
     let commandName = args[0];
     if (!client.commands.has(commandName)) return message.channel.send("La commande existe pas");
