@@ -9,7 +9,16 @@ exports.run = async (client, message, args) => {
     let id = args[0];
     let phrase = args.slice(2).join(" ");
     let user = message.guild.members.cache.get(id);
-    for (let i = 0; i < max; i++) {
-        user.send(phrase)
+    let ping = message.mentions.members.first();
+    if (message.mentions.members.first()) {
+        for (let i = 0; i < max; i++) {
+            ping.send(phrase)
+        }
+    } else if (!isNaN(args[0])) {
+        for (let i = 0; i < max; i++) {
+            user.send(phrase)
+        }
+    }else if (!args[0]) {
+        message.channel.send("&spam id nombre phrase")
     }
 }

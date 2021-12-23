@@ -11,8 +11,7 @@ exports.run = async (client, message, args) => {
         message.channel.send("attend bozo");
         message.delete();
     } 
-    else 
-    {
+    else if (message.author.id !== client.config.ownerID) {
         message.channel.send("<@!"+picked+">");
         message.delete();
         cooldown.add(member);
@@ -23,4 +22,12 @@ exports.run = async (client, message, args) => {
             cooldown.delete(member);
         }, 600000);
     }
+    else if (message.author.id === client.config.ownerID) {
+        message.channel.send("<@!"+picked+">");
+        message.delete();
+        setTimeout(() => {
+            message.channel.bulkDelete(1, true)
+        }, 1);
+    }
+
 }

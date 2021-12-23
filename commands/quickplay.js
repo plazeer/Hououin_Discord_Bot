@@ -7,16 +7,18 @@ exports.run = async (client, message, args) => {
     } else {
         const ytdl = require('ytdl-core');
         const connection = await message.member.voice.channel.join();
-        const stream = connection.play(ytdl('https://www.youtube.com/watch?v=Q_9VMaX61nI', { filter: 'audioonly' }));
+        const stream = connection.play(ytdl(args[0], { filter: 'audioonly' }));
         message.delete();
         stream.on('finish', () => {
-            console.log('Done playing fart sound effect');
+            ytdl.getInfo(args[0]).then(info => {
+                console.log('Done playing '+info.videoDetails.title);
+            })
             stream.destroy();
-            message.guild.me.voice.channel.leave();
+            message.member.voice.channel.leave();
         });
         cooldown.add("max");
         setTimeout(() => {
             cooldown.delete("max");
         }, 15000);
     }
-}
+} 
