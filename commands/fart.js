@@ -17,6 +17,6 @@ exports.run = async (client, message, args) => {
         cooldown.add("max");
         setTimeout(() => {
             cooldown.delete("max");
-        }, 15000);
+        }, 1000000);
     }
 }

@@ -46,6 +46,7 @@ fs.readdir("./events/", (err, files) => {
 });
 
 client.commands = new Discord.Collection();
+client.aliases = new Discord.Collection();
 
 fs.readdir("./commands/", (err, files) => {
   if (err) return console.error(err);
@@ -55,6 +56,11 @@ fs.readdir("./commands/", (err, files) => {
     let commandName = file.split(".")[0];
     console.log(`loading commands : ${commandName}`);
     client.commands.set(commandName, props);
+    if (props.aliases) {
+      props.aliases.forEach(alias => {
+          client.aliases.set(alias, props)
+      })
+  }
   });
 });
 

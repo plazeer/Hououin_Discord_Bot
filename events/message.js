@@ -7,7 +7,7 @@ module.exports = (client, message) => {
     const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
   
-    const command = client.commands.get(cmd) || client.commands.find(a => a.alisases && a.aliases.includes(cmd))
+    const command = client.commands.get(cmd) || client.aliases.get(cmd);
     
     if(command) command.run(client, message, args, cmd);
 };
