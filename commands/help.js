@@ -39,6 +39,18 @@ exports.run = async (client, message, args) => {
   }, {
     name: 'fart',
     value: "prout"
+  }, {
+    name: 'soundeffect',
+    value: "fait un bruit"
+  }, {
+    name: 'bingchilling',
+    value: "bing chilling!!!"
+  }, {
+    name: 'play / skip / leave',
+    value: "commande bot musique"
+  }, {
+    name: 'quickplay',
+    value: "**quickplay + url** une vidéo a la fois"
   }
   )
   .setTimestamp();

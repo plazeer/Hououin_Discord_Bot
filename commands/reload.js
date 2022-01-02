@@ -7,6 +7,11 @@ exports.run = (client, message, args ) => {
     client.commands.delete(commandName);
     let props = require(`./${commandName}.js`);
     client.commands.set(commandName, props);
+    if (props.aliases) {
+        props.aliases.forEach(alias => {
+            client.aliases.set(alias, props)
+        })
+    }
     message.channel.send(`${commandName} a été reload`)
 
 }

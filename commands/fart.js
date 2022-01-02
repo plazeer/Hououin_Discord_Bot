@@ -3,7 +3,8 @@ exports.run = async (client, message, args) => {
     if(!message.member.voice.channel) return message.channel.send("Pas dans un vc");
     if (message.guild.me.voice.channel) return message.channel.send("deja dans un vc");
     if (cooldown.has("max")) {
-        message.channel.send("calmos")
+        message.delete();
+        return;
     } else {
         const ytdl = require('ytdl-core');
         const connection = await message.member.voice.channel.join();
@@ -17,6 +18,6 @@ exports.run = async (client, message, args) => {
         cooldown.add("max");
         setTimeout(() => {
             cooldown.delete("max");
-        }, 1000000);
+        }, 60000);
     }
 }
