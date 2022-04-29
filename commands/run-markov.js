@@ -29,14 +29,17 @@ exports.run = async (client, message, args) => {
             }
             //le bot envoie un message si random est inferieur au chiffre entrer au debut de la commande
             if (random < cap) {
-                file = await fs.readFileSync('data.txt', 'utf8');
-                liste = await file.split("|");
-                liste.forEach(async string => await chain.update(`${string}`));
-                const msg = await chain.generate({grams: 2})
-                message.channel.startTyping();
+                file = fs.readFileSync('data.txt', 'utf8');
+                liste = file.split("|");
+                liste.forEach(string => chain.update(`${string}`));
+                const msg = chain.generate({grams: 2})
+                 message.channel.startTyping();
                 setTimeout(() => {
                     translate(msg, {to: language, apiKey: process.env.DEEPL_KEY})
                     .then(res => {
+                        if (!res.text) {
+                            return;
+                        } else
                         message.channel.send(res.text);
                     });
                     message.channel.stopTyping();

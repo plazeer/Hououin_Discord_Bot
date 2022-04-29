@@ -15,14 +15,17 @@
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
     "enmap": "^5.8.6",
+    "ffmpeg": "^0.0.4",
     "ffmpeg-static": "^4.4.0",
     "fs": "0.0.1-security",
     "ms": "^2.1.3",
     "node": "^14.16.0",
+    "opusscript": "^0.0.8",
     "purpl-markov-chain": "^2.0.3",
     "rita-deepl-translate-api": "^1.0.0",
-    "yt-search": "^2.10.2",
-    "ytdl": "^1.4.1"
+    "yt-search": "^2.10.3",
+    "ytdl": "^1.4.1",
+    "ytdl-core": "^4.11.0"
   },
   "devDependencies": {
     "markov-generator": "git+https://github.com/benslv/markov-generator.git",

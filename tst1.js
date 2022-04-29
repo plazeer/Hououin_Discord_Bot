@@ -35,6 +35,14 @@ client.on("message", function (message) {
   message.channel.send("feur");
 });
 
+client.on("message", function (message) {
+  if (message.content.startsWith('&')) return;
+  if (message.content.toLowerCase().endsWith("ouge")) {
+  message.channel.send("inak");
+  message.channel.send("https://imgur.com/VJrti99");
+  }
+});
+
 fs.readdir("./events/", (err, files) => {
   if (err) return console.error(err);
   files.forEach(file => {
