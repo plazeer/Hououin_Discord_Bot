@@ -135,7 +135,7 @@ const mute_vc = (message, user, msg) => {
 const droit = (message, user, msg) => {
     let role = message.guild.roles.cache.find(r => r.name === 'DROIT');
     rnd = Math.floor(Math.random() * 10);
-    duration = rnd * 5000;
+    let duration = n * 5000;
     user.roles.add(role);
     msg.edit("Et le grand gagnant du super gacha organisé par Hououin™️©️ est <@"+user+">!!! FUYEZ IL A DES DROITS PENDANT "+ ms(duration))
     setTimeout(function() {
