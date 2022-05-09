@@ -9,7 +9,6 @@ module.exports = {
     description: 'roulette de punition/bonus',
     async run(client, message, args, cmd){
         var x = 0;
-        const owner = client.guilds.cache.get(client.config.ownerID);
         const guild = client.guilds.cache.get(message.guild.id) // id du serveur
         guild.members.fetch().then((members) => {}); //refresh le cache
         let list = []; // liste des personnes qui ont réagis 
@@ -94,10 +93,13 @@ const move_channel = async (message, user, msg) => {
     });
     let channel = user.voice.channel
     console.log("avant while "+channel)
+    let i = 0;
         do {
             channel = list[Math.floor(Math.random() * list.length)];
             console.log("test boucle 1 "+channel)
             console.log(channel === user.voice.channel)
+            i++;
+            if (i === 50) break;
         } while (channel === user.voice.channel) 
     console.log("apres while "+channel)
     if ((list[Math.floor(Math.random() * list.length)] !== user.voice.channel)) console.log("move_channel ok")
@@ -139,10 +141,13 @@ const mute = (message, user, msg) => {
 const kick = (msg, liste) => {
     console.log("kick =========================");
     let victime;
+    let i = 0;
     do { 
         victime = liste[Math.floor(Math.random() * liste.length)];
         console.log("username :"+victime.user.username)
         console.log("kickable :"+victime.kickable)
+        i++;
+        if (i === 50) break;
     } while (!victime.kickable);
     victime.kick(); 
     const embed = new MessageEmbed()

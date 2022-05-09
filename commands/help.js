@@ -46,11 +46,23 @@ exports.run = async (client, message, args) => {
     name: 'bingchilling',
     value: "bing chilling!!!"
   }, {
-    name: 'play / skip / leave',
-    value: "commande bot musique"
+    name: 'amq',
+    value: "amq?"
   }, {
-    name: 'quickplay',
-    value: "**quickplay + url** une vidéo a la fois"
+    name: 'id',
+    value: "envoie l'id de la personne mentionné"
+  }, {
+    name: 'merci',
+    value: "GREEN MONTANA GOAT, omg rush master 300lp ce soir en légende ?"
+  }, {
+    name: 'roulette, gacha, g',
+    value: "la roulette, le gacha tout ce qu'il ya de plus classique"
+  }, {
+    name: 'soundeffect, se',
+    value: "Fait un sound effect dans le vocal"
+  }, {
+    name: 'ben',
+    value: "pose une question a ben, &ben `question`"
   }
   )
   .setTimestamp();
