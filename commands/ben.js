@@ -7,6 +7,7 @@ const {
     createAudioPlayer,
     createAudioResource
 } = require('@discordjs/voice');
+
 fs.readdir("./ben", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
@@ -26,18 +27,26 @@ module.exports = {
             if (vid === `${intro}`) ben.splice(i, 1);
             i++;
         });
+        let picked = ben[Math.floor(Math.random() * ben.length)]
+        let question = args.slice(0).join(" ");
+        q.push(picked);
+        if(!message.member.voice.channel){
+            message.delete();
+            message.channel.send("Ben, "+ question)
+            message.channel.send({
+                files: [`./ben/${picked}.gif`]
+            });
+            return;
+        }
         const player = createAudioPlayer();
         const connection = joinVoiceChannel({channelId: message.member.voice.channel.id, guildId: message.guild.id, adapterCreator: message.guild.voiceAdapterCreator})
-        let question = args.slice(0).join(" ");
         message.delete();
         message.channel.send("Ben, "+ question)
-        let picked = ben[Math.floor(Math.random() * ben.length)]
         if (!message.guild.me.voice.channel) {
              q.push(intro);
         }
         q.push(picked);
         let resource = createAudioResource(`./ben/${q[0]}.mp3`);
-            if(!message.member.voice.channel) return message.channel.send("Pas dans un vc");
             connection.subscribe(player);
             player.play(resource)
             player.on('idle', () => {

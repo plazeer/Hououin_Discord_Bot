@@ -2,7 +2,7 @@ module.exports = {
     name: 'disco',
     aliases: ['d'],
     cooldown: 0,
-    description: 'roulette de punition/bonus',
+    description: 'déconnection',
     async run(client, message, args, cmd){
         if (message.author.id !== client.config.ownerID) return;
         else {
