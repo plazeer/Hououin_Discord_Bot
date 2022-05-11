@@ -3,12 +3,8 @@ exports.run = (client, message, args) => {
     max = ziney.length;
     random = Math.floor(Math.random() * max);
     plusone = random+1;
-    let picked = ziney.slice(random,plusone);
+    let picked = ziney.slice(random,random+1);
     message.delete();
-    message.channel.startTyping();
-    setTimeout(() => {
-        message.channel.send(picked);
-        message.channel.stopTyping();
-        }, 500);
+    message.channel.send(picked[0]);
 }; 
 

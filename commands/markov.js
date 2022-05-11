@@ -16,12 +16,9 @@ liste.forEach(async string => await chain.update(`${string}`));
 //generate the chain having 2 words minimum used from the strings
 const msg = await chain.generate({grams: 2})
 //send the chain in the channel
-message.channel.startTyping();
-setTimeout(() => {
-    translate(msg, {to: language, apiKey: process.env.DEEPL_KEY})
-                    .then(res => {
-                        message.channel.send(res.text);
-                    });
-    message.channel.stopTyping();
-    }, 1000);
-}
+
+translate(msg, {to: language, apiKey: process.env.DEEPL_KEY})
+                .then(res => {
+                    message.channel.send(res.text);
+                })
+            }

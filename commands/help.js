@@ -67,5 +67,5 @@ exports.run = async (client, message, args) => {
   )
   .setTimestamp();
 
-message.channel.send(embed);
+message.channel.send({ embeds: [embed] });
 }

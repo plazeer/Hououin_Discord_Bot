@@ -1,12 +1,12 @@
+const { Permissions } = require('discord.js');
 exports.run = (client, message, args) => {
-
   let member = message.mentions.members.first();
   const ms = require("ms");
   let milliseconds = parseInt(args[1]);
   let mutereason = args.slice(2).join(" ");
   let seconds = milliseconds * 1000;
     if (!member) return message.channel.send("Mentionne qlq");
-      if (message.member.hasPermission("MANAGE_ROLES")) {
+      if (message.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) {
         let role = message.guild.roles.cache.find(r => r.name === 'muted');
         member.roles.add(role);
         if (message.content.includes (milliseconds+"s")) {

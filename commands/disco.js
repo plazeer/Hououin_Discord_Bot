@@ -8,11 +8,11 @@ module.exports = {
         else {
             if (message.mentions.members.first()) {
             let x = message.mentions.members.first();
-            x.voice.kick();
+            x.voice.disconnect();
             message.delete();
             } else if (!isNaN(args[0])) {
             let x = message.guild.members.cache.get(args[0]);
-            x.voice.kick();
+            x.voice.disconnect();
             message.delete();
             }
         }

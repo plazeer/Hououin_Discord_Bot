@@ -2,7 +2,7 @@ exports.run = async (client, message, args) => {
     if (message.author.id !== client.config.ownerID) return message.channel.send("ahahhahaha bah dit donc ?");
 
     for (let i = 0; i < 3; i++) {
-        const list = client.guilds.cache.get("584833650193858814");
+        const list = client.guilds.cache.get(message.guild.id);
         await list.members.fetch()
     }
     let max = args[1];

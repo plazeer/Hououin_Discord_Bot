@@ -1,5 +1,6 @@
+const { Permissions } = require('discord.js');
 exports.run = async (client, message, args) => {
-	if (!message.member.hasPermission("MANAGE_ROLES")) return message.channel.send("T'as pas les perms");
+	if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) return message.channel.send("T'as pas les perms");
         require('dotenv').config()
 		//variables
         const translate = require('rita-deepl-translate-api');
@@ -18,7 +19,7 @@ exports.run = async (client, message, args) => {
 		return !msg.content.includes('&') && !msg.author.bot 
         };
         console.log("markov on");
-        const collector = message.channel.createMessageCollector(filter);
+        const collector = message.channel.createMessageCollector({filter});
 		collector.on('collect', async msg => {
             random = Math.floor(Math.random() * 100);
             //l'owner peut mettre fin a la commande avec "end"
@@ -33,8 +34,6 @@ exports.run = async (client, message, args) => {
                 liste = file.split("|");
                 liste.forEach(string => chain.update(`${string}`));
                 const msg = chain.generate({grams: 2})
-                 message.channel.startTyping();
-                setTimeout(() => {
                     translate(msg, {to: language, apiKey: process.env.DEEPL_KEY})
                     .then(res => {
                         if (!res.text) {
@@ -42,8 +41,6 @@ exports.run = async (client, message, args) => {
                         } else
                         message.channel.send(res.text);
                     });
-                    message.channel.stopTyping();
-                    }, 1000);
             }; 
 	});
 };

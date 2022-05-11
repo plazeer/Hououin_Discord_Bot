@@ -15,7 +15,7 @@ exports.run = async (client, message, args) => {
             .setURL(image)
             .setImage(image)
             .setFooter(tag)
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
     } else if (!isNaN(args[0])) {
         const { MessageEmbed } = require('discord.js');
         let id = args[0];
@@ -30,7 +30,7 @@ exports.run = async (client, message, args) => {
             .setURL(image)
             .setImage(image)
             .setFooter(tag)
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
     } else if (!args[0]) return message.channel.send("Faut mentionner")
 }
 

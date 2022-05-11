@@ -2,7 +2,7 @@ const cooldown = new Set();
 exports.run = async (client, message, args) => {
     const member = message.author.id;
     for (let i = 0; i < 3; i++) {
-        const list = client.guilds.cache.get("584833650193858814");
+        const list = client.guilds.cache.get(message.guild.id)
         await list.members.fetch()
     }
     if (cooldown.has(member)) {

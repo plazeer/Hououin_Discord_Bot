@@ -1,11 +1,22 @@
 const Discord = require("discord.js");
 const fs = require("fs");
-const client = new Discord.Client();
+const client = new Discord.Client({
+  intents: [
+    Discord.Intents.FLAGS.GUILDS, 
+    Discord.Intents.FLAGS.GUILD_MEMBERS, 
+    Discord.Intents.FLAGS.GUILD_VOICE_STATES, 
+    Discord.Intents.FLAGS.GUILD_MESSAGES, 
+    Discord.Intents.FLAGS.DIRECT_MESSAGES, 
+    Discord.Intents.FLAGS.GUILD_MESSAGE_TYPING, 
+    Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Discord.Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
+    Discord.Intents.FLAGS.GUILD_INTEGRATIONS
+  ]})
 const config = require("./config.json");
 client.config = config;
 
 //markov collector
-client.on("message", function (message) {
+client.on("messageCreate", function (message) {
   //if (message.content.includes("@everyone") || message.content.includes("@here")) return;
   if (message.channel.id !== "923240752602050581") return;
   if (message.author.bot) return;
@@ -20,7 +31,7 @@ client.on("message", function (message) {
   fs.appendFileSync('markovlog.txt', word+" | a été ajouté dans la base de données le "+d.toLocaleDateString('fr-FR')+" "+time+"\n");
 });
 
-client.on("message", function (message) {
+client.on("messageCreate", function (message) {
   if (message.content.startsWith('&')) return;
   if (message.content.toLowerCase().endsWith("quoi") 
       || message.content.toLowerCase().endsWith("quoi ?") 
@@ -35,7 +46,7 @@ client.on("message", function (message) {
   message.channel.send("feur");
 });
 
-client.on("message", function (message) {
+client.on("messageCreate", function (message) {
   if (message.content.startsWith('&')) return;
   if (message.content.toLowerCase().endsWith("ouge")) {
   message.channel.send("inak");

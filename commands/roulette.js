@@ -8,6 +8,7 @@ module.exports = {
     cooldown: 0,
     description: 'roulette de punition/bonus',
     async run(client, message, args, cmd){
+        let participants = [];  // array pour l'embed 
         var x = 0;
         const guild = client.guilds.cache.get(message.guild.id) // id du serveur
         guild.members.fetch().then((members) => {}); //refresh le cache
@@ -17,30 +18,30 @@ module.exports = {
             const embed = new MessageEmbed()
             .setColor('#FFD700')
             .setTitle("CLIQUEZ")
-            sentmsg = await message.channel.send(embed); //création de l'embed
+            sentmsg = await message.channel.send({ embeds: [embed] }); //création de l'embed
             cooldown.add(x);
             setTimeout(() => {
                 cooldown.delete(x); //fin de cooldown
             }, 60000)
             await sentmsg.react('👍') // réaction sur l'embed
             const filter = (reaction, user) => {return reaction.emoji.name === '👍' && !user.bot}; // filtre pour le collector qui retiens que les emoji pouce et si l'utilisateur n'est pas un bot
-            const collector = sentmsg.createReactionCollector(filter, { time: 30000 }); // création du collector à reaction avec le filtre et 30 sec d'uptime
+            const collector = sentmsg.createReactionCollector({filter, time: 30000 });  // création du collector à reaction avec le filtre et 30 sec d'uptime
             collector.on ('collect', (reaction, user) => {
                 guild.members.fetch(user).then((members) => {  //récupere tous les membres qui ont réagis
-                    if(list.indexOf(members) !== -1) return; //si l'utilisateur a déja réagis fait rien
+                    if(list.indexOf(members) !== -1) return;
+                    participants = []; //si l'utilisateur a déja réagis fait rien
                     list.push(members); // envoie les membres dans list (ligne 13)
-                    let participants = []; // array pour l'embed 
                     var i = 1;
-                    list.forEach((member) => { // boucle forEach pour chaque membre i+1 et son pseudo (ex : 1. @plazeer)
+                    list.forEach((member) => {
                         const y = i++; //
-                        participants.push(y+". <@"+member+">");
+                        participants.push(y + ".<@" + member + ">");
                     });
-                    const embed = new MessageEmbed() // embed avec les participants 
+                    const embed = new MessageEmbed() // emb ed avec les participants 
                     .setColor('#FFD700')
                     .setTitle("**GACHA**")
                     .setDescription("Le gacha meilleur que dokkan!!!\n \n Qui va cop le **KICK**- , qui va avoir les **DROITS**!!")
-                    .addField('**Participants**', participants )
-                    sentmsg.edit(embed);
+                    .addField("**Participants**", participants.join('\n'));
+                    sentmsg.edit({ embeds: [embed] });
                 });
             });
             collector.on('end', collected => {
@@ -58,7 +59,7 @@ module.exports = {
                         .addFields(
                             { name: '\u200B', value: 'Et le grand **gagnant** du **super gacha** organisé par **Hououin™️©️** est... "' },
                         )                
-                        msg = await message.channel.send(embed);
+                        msg = await message.channel.send({ embeds: [embed] });
                         timer(10000); // sleep(10000);
                         if (!picked[0].voice.channel) { // Si pas dans un vocal 
                             if (gacha >= 0 && gacha <= 4) kick(msg, list);
@@ -109,7 +110,7 @@ const move_channel = async (message, user, msg) => {
     .addFields(
     {  name: '\u200B', value: 'Et le grand **gagnant** du super gacha organisé par **Hououin™️©️** est... \n \n **<@'+user+"> \n \n **Bravo tu as **GAGNÉ** maintenant va la bas mdr" },
     )                
-    msg.edit(embed);
+    msg.edit({ embeds: [embed] });
 };
 
 //==========================================Fonction pour mute écrit===============================================
@@ -128,7 +129,7 @@ const mute = (message, user, msg) => {
     .addFields(
     {  name: '\u200B', value: 'Et le grand **gagnant** du super gacha organisé par **Hououin™️©️** est... \n \n **<@'+user+">** \n \n haha bravo t'es mute pendant **"+ms(duration)+"in**" },
     )                
-    msg.edit(embed);
+    msg.edit({ embeds: [embed] });
     setTimeout(function() {
         console.log("fin du mute de "+user.user.username)
         user.roles.remove(role);
@@ -155,7 +156,7 @@ const kick = (msg, liste) => {
     .addFields(
     {  name: '\u200B', value: 'Et le grand **gagnant** du super gacha organisé par **Hououin™️©️** est... \n \n <@'+victime+"> \n \n **AU REVOIR**" },
     )                
-    msg.edit(embed);
+    msg.edit({ embeds: [embed] });
 }
 
 //==========================================Fonction pour déconnecter quelqu'un du vocal===============================================
@@ -164,13 +165,13 @@ const kick = (msg, liste) => {
 const disco = (user, msg) => {
     console.log("déconnecter ============================");
     console.log(user.user.username+" s'est fait déco")
-    user.voice.kick()  //déco du vc
+    user.voice.disconnect();  //déco du vc
     const embed = new MessageEmbed()
     .setColor('#FFD700')
     .addFields(
     {  name: '\u200B', value: 'Et le grand **gagnant** du super gacha organisé par **Hououin™️©️** est... \n \n **<@'+user+">** \n \n BRAVO maintenant **DEHHOOOOORS**" },
     )                
-    msg.edit(embed);
+    msg.edit({ embeds: [embed] });
 };
 
 //==========================================Fonction pour mute vocal===============================================
@@ -192,7 +193,7 @@ const mute_vc = (user, msg) => {
         .addFields(
         {  name: '\u200B', value: 'Et le grand **gagnant** du super gacha organisé par **Hououin™️©️** est... \n \n **<@'+user+">** \n \n haha bravo t'es mute pendant **"+ms(duration)+"in**" },
         )                
-        msg.edit(embed);
+        msg.edit({ embeds: [embed] });
         setTimeout(function() {
             user.voice
             .setDeaf(false);
@@ -211,7 +212,7 @@ const mute_vc = (user, msg) => {
         .addFields(
         {  name: '\u200B', value: 'Et le grand **gagnant** du super gacha organisé par **Hououin™️©️** est... \n \n **<@'+user+">** \n \n haha bravo t'es mute pendant **"+ms(duration)+"in**" },
         )                
-        msg.edit(embed);    
+        msg.edit({ embeds: [embed] });    
         setTimeout(function() {
             user.voice
             .setDeaf(false);
@@ -229,7 +230,7 @@ const mute_vc = (user, msg) => {
         .addFields(
         {  name: '\u200B', value: 'Et le grand **gagnant** du super gacha organisé par **Hououin™️©️** est... \n \n **<@'+user+">** \n \n haha bravo t'es mute pendant **"+ms(duration)+"in**" },
         )                
-        msg.edit(embed);
+        msg.edit({ embeds: [embed] });
         setTimeout(function() {
             user.voice
             .setMute(false);
@@ -254,7 +255,7 @@ const droit = async (message, user, msg) => {
     .addFields(
     { name: '\u200B', value: 'Et le grand **gagnant** du super gacha organisé par **Hououin™️©️** est... \n \n **<@'+user+">** \n \n FUYEZ IL A DES DROITS PENDANT**"+ ms(duration)+"**"},
     )                
-    msg.edit(embed);
+    msg.edit({ embeds: [embed] });
     setTimeout(function() {
         console.log("fin des droits pour "+user.user.username);
         user.roles.remove(role);
@@ -308,7 +309,7 @@ const change_nick = async (message, user, msg, liste, client) => {
     if (liste.length >= 2) {
         console.log("victime :"+victime.user.username)
         const filter = msg => {return !msg.author.bot && !msg.content.includes('&')}; // filtre si pas un bot et si l'auteur du message est bien le gagnant
-        const collector = message.channel.createMessageCollector(filter, { time: 30000 }); // 30sec + filtre 
+        const collector = message.channel.createMessageCollector({filter, time: 30000 }); // 30sec + filtre 
         message.channel.send("VITE <@"+user+"> DIT UN PSEUDO POUR REMPLACER CELUI DE <@"+victime+">")
         collector.on('collect', async msg => {
             if (msg.author.id !== user.id) return;
@@ -328,7 +329,7 @@ const change_nick = async (message, user, msg, liste, client) => {
                 .addFields(
                 { name: '\u200B', value: 'Et le grand **gagnant** du super gacha organisé par **Hououin™️©️** est... \n \n <@'+user+"> \n \n Il a fait le choix de pas rename malheureusement"},
                 )   
-                 msg.edit(embed);
+                 msg.edit({ embeds: [embed] });
 
             } else {
                 victime.setNickname(list[0]);
@@ -337,7 +338,7 @@ const change_nick = async (message, user, msg, liste, client) => {
                 .addFields(
                 { name: '\u200B', value: 'Et le grand **gagnant** du super gacha organisé par **Hououin™️©️** est... \n \n **<@'+user+">** \n \n <@"+victime+"> s'appelle maintenant **"+list[0]+"**3"},
                 )                
-                msg.edit(embed);
+                msg.edit({ embeds: [embed] });
             };
         });
 
@@ -348,12 +349,12 @@ const change_nick = async (message, user, msg, liste, client) => {
             .addFields(
             { name: '\u200B', value: 'Et le grand **gagnant** du super gacha organisé par **Hououin™️©️** est... \n \n <@'+user+"> \n \n mais pas de chance du coup quoi"},
             )   
-            msg.edit(embed);
+            msg.edit({ embeds: [embed] });
 
         } else {
             console.log("gagnant/victime car liste < 2 :"+user.user.username)
         const filter = msg => {return !msg.content.includes('&') && !msg.author.bot}; // filtre si pas un bot et si l'auteur du message est bien le gagnant
-        const collector = message.channel.createMessageCollector(filter, { time: 30000 }); // 30sec + filtre
+        const collector = message.channel.createMessageCollector({filter, time: 30000 }); // 30sec + filtre
         message.channel.send("VITE DITES UN PSEUDO POUR REMPLACER CELUI DE <@"+user+">") 
 
         collector.on('collect', async msg => {
@@ -373,7 +374,7 @@ const change_nick = async (message, user, msg, liste, client) => {
                 .addFields(
                 { name: '\u200B', value: 'Et le grand **gagnant** du super gacha organisé par **Hououin™️©️** est... \n \n <@'+user+"> \n \n Il a de la chance, y'aura pas de rename cette fois ci..."},
                 )   
-                msg.edit(embed);
+                msg.edit({ embeds: [embed] });
             } else {
                 user.setNickname(list[0]); // change son pseudo
                 const embed = new MessageEmbed()
@@ -381,7 +382,7 @@ const change_nick = async (message, user, msg, liste, client) => {
                 .addFields(
                 { name: '\u200B', value: 'Et le grand **gagnant** du super gacha organisé par **Hououin™️©️** est... \n \n <@'+user+"> \n \n <@"+user+"> s'appelle maintenant **"+list[0]+"**!!!"},
                 )                
-                msg.edit(embed);
+                msg.edit({ embeds: [embed] });
                 };
             });
         };

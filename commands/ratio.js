@@ -1,5 +1,6 @@
+const { Permissions } = require('discord.js');
 exports.run = (client, message, args) => {
-    if (!message.member.hasPermission("MANAGE_ROLES")) return message.channel.send("T'as pas les perms");
+    if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) return message.channel.send("T'as pas les perms");
 
     // all variables
     const fs = require("fs");
@@ -13,7 +14,7 @@ exports.run = (client, message, args) => {
     const filter = msg => {
     return !msg.content.includes('&') && !msg.author.bot };
 
-    const collector = message.channel.createMessageCollector(filter);
+    const collector = message.channel.createMessageCollector({filter});
     console.log("ratio machine on");
 
     collector.on('collect', msg => {
@@ -28,11 +29,7 @@ exports.run = (client, message, args) => {
             random = Math.floor(Math.random() * max);
             plusone = random+1;
             let picked = words.slice(random,plusone);
-            message.channel.startTyping();
-            setTimeout(() => {
                 message.channel.send(picked);
-                message.channel.stopTyping();
-                }, 500);
         }; 
 });
 };
