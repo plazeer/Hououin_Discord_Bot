@@ -9,8 +9,14 @@ module.exports = {
         const { MessageEmbed } = require('discord.js');
         require('dotenv').config()
         const trad = require('rita-deepl-translate-api');
-        if (cmd === 'tl' || cmd === 'translate') {
-            if (!args[0]) return message.channel.send("Mettez une phrase à traduire ")
+            if (cmd === 'tl' || cmd === 'translate') {
+                if (message.type === 'REPLY') {
+                message.fetchReference()
+                .then(msg => {
+                    phrase = msg.content
+                })
+            }
+            if (!args[0] && message.type !== 'REPLY') return message.channel.send("Mettez une phrase à traduire ")
             let phrase = args.slice(0).join(" ")
             const embed = new MessageEmbed()
                 .setColor('#FFD700')
