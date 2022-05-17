@@ -72,7 +72,6 @@ module.exports = {
                 i.reply("<@"+i.user.id+"> a fait son choix")
             }
             if (participants.length === 2) return collector2.stop();
-            console.log(shifumi)
         });
         collector2.on('end', async i => {
             console.log(shifumi)
@@ -129,7 +128,7 @@ module.exports = {
             winner = message.guild.members.cache.get(gagnant);
             if (choix === 5) change_nick(message, winner, loser, client);
             else if (choix === 4) disco(winner);
-            else if (choix === 3) mute_vc(loser);
+            else if (choix === 3) mute_vc(message, loser);
             else if (choix === 1) move_channel(message, loser);
             else if (choix === 2) mute(message, loser);
         }, 4000);

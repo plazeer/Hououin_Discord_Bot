@@ -2,7 +2,7 @@ const ms = require("ms");
 exports.move_channel = async function(message, perdant){
     if (!perdant.voice.channel) return message.channel.send("Pas en vocal")
     console.log("move_channel ============================");
-    const id = await message.guild.channels.cache.filter(c => c.type === "voice")
+    const id = await message.guild.channels.cache.filter(c => c.type === "GUILD_VOICE")
     let list = [];
     id.forEach(vc => {
         list.push(vc.id); //envoie l'id de tous les channels dans list
@@ -32,6 +32,7 @@ exports.mute = async function(message, perdant){
     var n = parseInt(rnd)+1;
     let duration = n * 60000;
     perdant.roles.add(role); //donne le role muted au gagnant
+    message.channel.send(perdant.user.username+" est mute pendant "+ ms(duration));
     console.log("debut du mute de "+perdant.user.username+" pendant "+ms(duration))
     setTimeout(function() {
         console.log("fin du mute de "+perdant.user.username)
@@ -52,7 +53,7 @@ exports.disco = async function(perdant){
 //==========================================Fonction pour mute vocal===============================================
 
 
-exports.mute_vc = async function(perdant){
+exports.mute_vc = async function(message, perdant){
     if (!perdant.voice.channel) return message.channel.send("Pas en vocal")
     rnd = Math.floor(Math.random() * 3);
     var n = parseInt(rnd)+1;
@@ -61,6 +62,7 @@ exports.mute_vc = async function(perdant){
 
     //MUTE CASQUE SEULEMENT
     if (rnd2 === 0) {
+        message.channel.send(perdant.user.username+" est mute pendant "+ ms(duration));
         console.log("mute casque pour"+perdant.user.username+" pendant "+ms(duration));
         perdant.voice
         .setDeaf(true)
@@ -72,6 +74,7 @@ exports.mute_vc = async function(perdant){
     
     //MUTE CASQUE ET MICRO
     else if ( rnd2 === 1) {
+        message.channel.send(perdant.user.username+" est mute pendant "+ ms(duration));
         console.log("mute casque/micro pour"+perdant.user.username+" pendant "+ms(duration));
         perdant.voice
         .setDeaf(true);
@@ -86,6 +89,7 @@ exports.mute_vc = async function(perdant){
 
     //MUTE MICRO
     } else if ( rnd2 === 2) {
+        message.channel.send(perdant.user.username+" est mute pendant "+ ms(duration));
         console.log("mute micro pour"+perdant.user.username+" pendant "+ms(duration));
         perdant.voice
         .setMute(true)
@@ -120,5 +124,7 @@ exports.change_nick = async function(message, gagnant, perdant, client){
         collector.on('end', async collected => {
             if (list.length === 0) return message.channel.send("Fallait changer le pseudo")
                 perdant.setNickname(list[0]);
+                message.channel.send(perdant.user.username+" s'appelle maintenant <@"+perdant+">");
+
         });
     }

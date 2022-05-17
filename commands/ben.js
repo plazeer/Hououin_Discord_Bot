@@ -29,7 +29,6 @@ module.exports = {
         });
         let picked = ben[Math.floor(Math.random() * ben.length)]
         let question = args.slice(0).join(" ");
-        q.push(picked);
         if(!message.member.voice.channel){
             message.delete();
             message.channel.send("Ben, "+ question)
@@ -46,6 +45,7 @@ module.exports = {
              q.push(intro);
         }
         q.push(picked);
+        console.log(q);
         let resource = createAudioResource(`./ben/${q[0]}.mp3`);
             connection.subscribe(player);
             player.play(resource)

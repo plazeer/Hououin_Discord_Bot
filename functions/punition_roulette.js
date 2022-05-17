@@ -2,8 +2,8 @@ const { MessageEmbed } = require('discord.js');
 const ms = require("ms");
 
 exports.move_channel = async function(message, user, msg){
+    const id = message.guild.channels.cache.filter(c => c.type === "GUILD_VOICE")
     console.log("move_channel ============================");
-    const id = await message.guild.channels.cache.filter(c => c.type === "voice")
     let list = [];
     id.forEach(vc => {
         list.push(vc.id); //envoie l'id de tous les channels dans list
@@ -11,6 +11,7 @@ exports.move_channel = async function(message, user, msg){
     let channel = user.voice.channel
     console.log("avant while "+channel)
     let i = 0;
+    console.log(list);
         do {
             channel = list[Math.floor(Math.random() * list.length)];
             console.log("test boucle 1 "+channel)
