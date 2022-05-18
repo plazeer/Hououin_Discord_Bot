@@ -4,7 +4,7 @@ const { results, drivers, seasons, constructors, circuits, qualifyings, schedule
 
 let driver_standings  = []
 let constructor_standings = [];
-
+let driver_title = []; 
 module.exports = {
     name: 'Standings',
     aliases: ['standings', 'standing', 'std'],
@@ -121,21 +121,29 @@ const buttons = new MessageActionRow()
 );
 
 async function driver_std () {
+    driver_standings  = [];
+    driver_title = [];
     await standings.getCurrentDriverStanding()
         .then(async(standingList) => {
-            console.log(standingList)
             for await (const driver of standingList) {
-                let dri = "**"+driver.position+"** "+driver.Driver.code+" "+driver.Driver.permanentNumber+" | "+driver.points+"pts \n";
+                let dri = ({
+                    name: `${driver.Driver.givenName}  ${driver.Driver.familyName}`,
+                    value: "**"+driver.position+"** "+driver.Driver.code+" "+driver.Driver.permanentNumber+" | "+driver.points+"pts \n"
+                })
                 driver_standings.push(dri);
         }
     })
 }
 
 async function con_std () {
+    constructor_standings  = [];
     await standings.getCurrentConstructorStanding()
     .then(async(standingList) => {
         for await (const cs of standingList) {
-            let cons = `**${cs.position}** ${cs.Constructor.name} | ${cs.points}pts \n`;
+            let cons = ({
+                name: `${cs.Constructor.name}`,
+                value: `**${cs.position}** | ${cs.points}pts \n`
+            })            
             constructor_standings.push(cons);
         }
     });
@@ -143,10 +151,14 @@ async function con_std () {
 
 async function standing_year_driver (year) {
     driver_standings  = [];
+    driver_title = [];
     await standings.getDriverStandingsByYear(year)
     .then(async(standingList) => {
         for await (const driver of standingList) {
-            let dri = "**"+driver.position+"** "+driver.Driver.code+" | "+driver.points+"pts \n";
+            let dri = ({
+                name: `${driver.Driver.givenName}  ${driver.Driver.familyName}`,
+                value: "**"+driver.position+"** "+driver.Driver.code+" "+driver.Driver.permanentNumber+" | "+driver.points+"pts \n"
+            })
             driver_standings.push(dri);
         }
     })
@@ -157,7 +169,10 @@ async function standing_year_const (year) {
     await standings.getConstructorStandingsByYear(year)
     .then(async(standingList) => {
         for await (const cs of standingList) {
-            let cons = `**${cs.position}** ${cs.Constructor.name} | ${cs.points}pts \n`;
+            let cons = ({
+                name: `${cs.Constructor.name}`,
+                value: `**${cs.position}** | ${cs.points}pts \n`
+            })
             constructor_standings.push(cons);
         }
     })
@@ -170,7 +185,5 @@ async function page_embed (start, end, std) {
     return new MessageEmbed()
         .setColor('#FFD700')
         .setTitle('Driver Standing')
-        .addFields(
-            { name: '\u200B', value: current.join('\n') }
-        )  
+        .addFields(current)  
 }
