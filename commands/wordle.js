@@ -3,7 +3,16 @@ const cooldown = new Discord.Collection();
 const humanizeduration = require("humanize-duration")
 const csv = require('csv-parser')
 const fs = require('fs')
-
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('database', 'user', 'password', {
+	host: 'localhost',
+	dialect: 'sqlite',
+	logging: false,
+	// SQLite only
+	storage: 'database.sqlite',
+});
+const tags = require('../DBTable.js')(sequelize, Sequelize.DataTypes);
+const tag = tags
 let result = [];
 let picked;
 var night = new Date();
@@ -24,6 +33,15 @@ module.exports = {
     cooldown: 0,
     description: 'motus/sutom/wordle',
     async run(client, message, args, cmd){
+        console.log(picked)
+        if(!tag.userid) {
+            tags = await tags.create({
+            name: message.author.tag,
+            userid: message.author.id,
+        });
+    }
+
+
         var midnight = new Date();
         midnight.setHours(24,0,0,0); 
         var now = new Date();
@@ -41,6 +59,7 @@ module.exports = {
         let total = [];
         let arr = [];
         let arr2 = [];
+        let win = 0;
         mot.forEach(async i => {
             if(mot_masque.indexOf(i) !== -1) {
                 mot_masque.splice(x, 1, '...')
@@ -109,13 +128,37 @@ module.exports = {
                     dmchannel.send(`Lettres trouvées : ${lettre.join(' ')}`)
                     dmchannel.send(`Mauvaise lettre : ${arr2.join(' | ')}`)
                     total.push(histo.join(''))
-                if (msg.content === mot.join('')) collector.stop();
+                if (msg.content === mot.join('')) {
+                    win = 1;
+                    a++
+                    collector.stop();
+                }
                 if (a === 6) collector.stop();
                 a++
             });
             collector.on('end', async collected => {
                 dmchannel.send('gg cétait '+picked)
                 dmchannel.send(`Wordle HououinGO4T : \n${total.join('\n')} \n de : <@${dmchannel.recipient.id}>`)
+                if (!tag) return;
+                if (win === 1) {
+                    tag.increment('Wins');
+                } else if (win === 0) {
+                    tag.increment('Loses')
+                }
+                if (a === 1) {
+                    tag.increment('One')
+                } else if (a === 2) {
+                    tag.increment('Two')
+                } else if (a === 3) {
+                    tag.increment('Three')
+                } else if (a === 4) {
+                    tag.increment('Four')
+                } else if (a === 5) {
+                    tag.increment('Five')
+                } else if (a === 6) {
+                    tag.increment('Six')
+                }
+                console.log(await tags.findAll({ attributes: ['name'] }))
             })
         })
     }
