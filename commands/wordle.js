@@ -37,8 +37,10 @@ module.exports = {
         let mot_masque = picked.split(/(?!$)/u);
         let mot2 = picked.split(/(?!$)/u);
         let x = 1;
-        let a = 0;
+        let a = 1;
         let total = [];
+        let arr = [];
+        let arr2 = [];
         mot.forEach(async i => {
             if(mot_masque.indexOf(i) !== -1) {
                 mot_masque.splice(x, 1, '...')
@@ -52,16 +54,28 @@ module.exports = {
         const filter = msg => {return !msg.author.bot && !msg.content.includes('&')};
         message.author.createDM()
         .then(dmchannel => {
-        const collector = dmchannel.createMessageCollector({filter, time: 600000 });
+        const collector = dmchannel.createMessageCollector({filter, time: 1800000 });
             collector.on('collect', async msg => {
+                if (result.indexOf(msg.content) === -1) return dmchannel.send("Ce mot n'existe pas dans notre dictionnaire")
                 if (!msg.author.id) return;
                 if (msg.content.split('').length !== mot.length) return dmchannel.send(`${mot.length} lettres`)
-                temp = await msg.content.toLowerCase().split('')
-                temp2 = await msg.content.toLowerCase().split('')
+                let temp = await msg.content.toLowerCase().split('')
+                let temp2 = await msg.content.toLowerCase().split('')
                 let x = -1;
+                let y = -1;
+                let MauvaiseLettre = [];
+                let lettre = [];
+                let faux;
+                let histo;
+                let rouge;
+                let jaune;
                 for (let i = 0; i < mot.length; i++) {
                     if (temp[i] === mot[i]) {
-                        temp2.splice(i, 1, '🟥');
+                        rouge = temp2.splice(i, 1, '🟥');
+                        if(lettre.indexOf(`${rouge}: 🟥`) === -1) {
+                            lettre.push(`${rouge}: 🟥`)
+                        }
+                        arr.push(rouge.join(' '));
                         temp.splice(i, 1, null);
                         mot2.splice(i, 1, '...');
                     }
@@ -71,18 +85,37 @@ module.exports = {
                     if(mot.indexOf(i) !== -1) {
                         if (temp[x] === mot[x]) return;
                         if (mot2.indexOf(i) === -1) return;
-                        temp2.splice(x, 1, '🟨');
+                        jaune = temp2.splice(x, 1, '🟨');
+                        if(lettre.indexOf(`${jaune}: 🟨`) === -1) {
+                            lettre.push(`${jaune}: 🟨`)
+                        }
+                        arr.push(jaune.join(' '));
                     }
                 })
-                total.push(temp2.join(' '))
-                dmchannel.send(temp2.join(' '));
+                temp2.forEach(i => {
+                    y++
+                    histo = temp2;
+                    if(i === '🟨')return;
+                    if(i === '🟥')return;
+                    faux = histo.splice(y, 1, '⬛')
+                    if (arr.indexOf(faux.join(' ')) !== -1) return;
+                    if (arr2.indexOf(faux.join(' ')) === -1) {
+                        MauvaiseLettre.push(`${faux}: ⬛`)
+                        arr2.push(faux.join(' '))
+                    }
+
+                })
+                    dmchannel.send(temp2.join(' '));
+                    dmchannel.send(`Lettres trouvées : ${lettre.join(' ')}`)
+                    dmchannel.send(`Mauvaise lettre : ${arr2.join(' | ')}`)
+                    total.push(histo.join(''))
                 if (msg.content === mot.join('')) collector.stop();
                 if (a === 6) collector.stop();
                 a++
             });
             collector.on('end', async collected => {
                 dmchannel.send('gg cétait '+picked)
-                dmchannel.send(`${total.join('\n')}`)
+                dmchannel.send(`Wordle HououinGO4T : \n${total.join('\n')} \n de : <@${dmchannel.recipient.id}>`)
             })
         })
     }
