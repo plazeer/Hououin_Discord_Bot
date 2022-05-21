@@ -12,7 +12,6 @@ const sequelize = new Sequelize('database', 'user', 'password', {
 	storage: 'database.sqlite',
 });
 const tags = require('../DBTable.js')(sequelize, Sequelize.DataTypes);
-const tag = tags
 let result = [];
 let picked;
 var night = new Date();
@@ -34,14 +33,13 @@ module.exports = {
     description: 'motus/sutom/wordle',
     async run(client, message, args, cmd){
         console.log(picked)
-        if(!tag.userid) {
-            tags = await tags.create({
-            name: message.author.tag,
-            userid: message.author.id,
-        });
-    }
-
-
+        const db = await tags.findOne({ where: { userid: message.author.id } });
+        if (!db) {
+                await tags.create({
+                name: message.author.tag,
+                userid: message.author.id,
+            })
+        }   
         var midnight = new Date();
         midnight.setHours(24,0,0,0); 
         var now = new Date();
@@ -75,6 +73,7 @@ module.exports = {
         .then(dmchannel => {
         const collector = dmchannel.createMessageCollector({filter, time: 1800000 });
             collector.on('collect', async msg => {
+                console.log(a)
                 if (result.indexOf(msg.content) === -1) return dmchannel.send("Ce mot n'existe pas dans notre dictionnaire")
                 if (!msg.author.id) return;
                 if (msg.content.split('').length !== mot.length) return dmchannel.send(`${mot.length} lettres`)
@@ -105,6 +104,7 @@ module.exports = {
                         if (temp[x] === mot[x]) return;
                         if (mot2.indexOf(i) === -1) return;
                         jaune = temp2.splice(x, 1, '🟨');
+                        mot2.splice(i, 1, '...');
                         if(lettre.indexOf(`${jaune}: 🟨`) === -1) {
                             lettre.push(`${jaune}: 🟨`)
                         }
@@ -130,35 +130,40 @@ module.exports = {
                     total.push(histo.join(''))
                 if (msg.content === mot.join('')) {
                     win = 1;
-                    a++
+                    a++;
                     collector.stop();
+                    return;
                 }
-                if (a === 6) collector.stop();
-                a++
+                if (a === 6) {
+                    collector.stop();
+                    return;
+                }
+                a++;
             });
             collector.on('end', async collected => {
                 dmchannel.send('gg cétait '+picked)
                 dmchannel.send(`Wordle HououinGO4T : \n${total.join('\n')} \n de : <@${dmchannel.recipient.id}>`)
-                if (!tag) return;
+                if (!tags) return;
+                await tags.update({ Played: sequelize.literal('Played + 1') }, { where: { userid: dmchannel.recipient.id }});
                 if (win === 1) {
-                    tag.increment('Wins');
+                    await tags.update({ Wins: sequelize.literal('Wins + 1') }, { where: { userid: dmchannel.recipient.id }});
                 } else if (win === 0) {
-                    tag.increment('Loses')
+                    await tags.update({ Loses: sequelize.literal('Loses + 1') }, { where: { userid: dmchannel.recipient.id }});
                 }
                 if (a === 1) {
-                    tag.increment('One')
+                    await tags.update({ One: sequelize.literal('One + 1') }, { where: { userid: dmchannel.recipient.id }});
                 } else if (a === 2) {
-                    tag.increment('Two')
+                    await tags.update({ Two: sequelize.literal('Two + 1') }, { where: { userid: dmchannel.recipient.id }});
                 } else if (a === 3) {
-                    tag.increment('Three')
+                    await tags.update({ Three: sequelize.literal('Three + 1') }, { where: { userid: dmchannel.recipient.id }});
                 } else if (a === 4) {
-                    tag.increment('Four')
+                    await tags.update({ Four: sequelize.literal('Four + 1') }, { where: { userid: dmchannel.recipient.id }});
                 } else if (a === 5) {
-                    tag.increment('Five')
+                    await tags.update({ Five: sequelize.literal('Five + 1') }, { where: { userid: dmchannel.recipient.id }});
                 } else if (a === 6) {
-                    tag.increment('Six')
+                    await tags.update({ Six: sequelize.literal('Six + 1') }, { where: { userid: dmchannel.recipient.id }});
                 }
-                console.log(await tags.findAll({ attributes: ['name'] }))
+                console.log(await tags.findAll({ raw: true }))
             })
         })
     }

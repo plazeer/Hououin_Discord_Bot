@@ -7,8 +7,11 @@ module.exports = (sequelize, DataTypes) => {
         userid: {
     		type: DataTypes.STRING,
     		unique: true,
-    	},
-    	Wins: {
+    	},Played: {
+            type: DataTypes.INTEGER,
+    		defaultValue: 0,
+    		allowNull: false,
+        },Wins: {
             type: DataTypes.INTEGER,
     		defaultValue: 0,
     		allowNull: false,
