@@ -53,7 +53,7 @@ module.exports = {
         let mot_masque = picked.split(/(?!$)/u);
         let mot2 = picked.split(/(?!$)/u);
         let x = 1;
-        let a = 1;
+        let a = 0;
         let total = [];
         let arr = [];
         let arr2 = [];
@@ -105,6 +105,7 @@ module.exports = {
                         if (mot2.indexOf(i) === -1) return;
                         jaune = temp2.splice(x, 1, '🟨');
                         mot2.splice(i, 1, '...');
+                        temp.splice(i, 1, null);
                         if(lettre.indexOf(`${jaune}: 🟨`) === -1) {
                             lettre.push(`${jaune}: 🟨`)
                         }
@@ -144,7 +145,7 @@ module.exports = {
                 dmchannel.send('gg cétait '+picked)
                 dmchannel.send(`Wordle HououinGO4T : \n${total.join('\n')} \n de : <@${dmchannel.recipient.id}>`)
                 if (!tags) return;
-                await tags.update({ Played: sequelize.literal('Played + 1') }, { where: { userid: dmchannel.recipient.id }});
+                await tags.update({ Played: sequelize.literal('Wins + Loses + 1') }, { where: { userid: dmchannel.recipient.id }});
                 if (win === 1) {
                     await tags.update({ Wins: sequelize.literal('Wins + 1') }, { where: { userid: dmchannel.recipient.id }});
                 } else if (win === 0) {
@@ -163,7 +164,9 @@ module.exports = {
                 } else if (a === 6) {
                     await tags.update({ Six: sequelize.literal('Six + 1') }, { where: { userid: dmchannel.recipient.id }});
                 }
+                await tags.update({ GuessRate: sequelize.literal('(Six + Five + Four + Three + Two + One)/6') }, { where: { userid: dmchannel.recipient.id }});
                 console.log(await tags.findAll({ raw: true }))
+                
             })
         })
     }
