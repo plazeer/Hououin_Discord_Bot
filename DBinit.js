@@ -8,8 +8,8 @@ const sequelize = new Sequelize('database', 'username', 'password', {
 const queryInterface = sequelize.getQueryInterface();
 
 require('./DBTable.js')(sequelize, Sequelize.DataTypes);
-//queryInterface.removeColumn('tags', 'Played', { type: DataTypes.INTEGER, defaultValue: 0, allowNull: false});
-queryInterface.addColumn('tags', 'Played', { type: DataTypes.INTEGER, defaultValue: 0, allowNull: false});
+//queryInterface.removeColumn('tags', 'GuessRate', { type: DataTypes.INTEGER, defaultValue: 0, allowNull: false});
+queryInterface.addColumn('tags', 'GuessRate', { type: DataTypes.INTEGER, defaultValue: 0, allowNull: false});
 
 
 const force = process.argv.includes('--force') || process.argv.includes('-f');

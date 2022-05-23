@@ -7,7 +7,7 @@ let constructor_standings = [];
 let driver_title = []; 
 module.exports = {
     name: 'Standings',
-    aliases: ['standings', 'standing', 'std'],
+    aliases: ['standings', 'standing', 'std', 'classement'],
     cooldown: 0,
     description: '',
     async run(client, message, args, cmd){
