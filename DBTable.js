@@ -7,11 +7,18 @@ module.exports = (sequelize, DataTypes) => {
         userid: {
     		type: DataTypes.STRING,
     		unique: true,
-    	},Played: {
+    	},
+        Played: {
             type: DataTypes.INTEGER,
     		defaultValue: 0,
     		allowNull: false,
-        },Wins: {
+        },
+        GuessRate: {
+            type: DataTypes.REAL,
+    		defaultValue: 0,
+    		allowNull: false,
+        },
+        Wins: {
             type: DataTypes.INTEGER,
     		defaultValue: 0,
     		allowNull: false,
