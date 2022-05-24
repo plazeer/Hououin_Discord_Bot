@@ -21,7 +21,7 @@ module.exports = {
         const exampleEmbed = new MessageEmbed()
 	    .setColor('#0099ff')
 	    .setTitle(`${user.name}`)
-	    .setDescription(`**${user.Played}** game **${user.Wins}** wins et **${user.Loses}** défaites ${user.GuessRate}`)
+	    .setDescription(`**${user.Played}** game **${user.Wins}** victoires, **${user.Loses}** défaites et  en **${user.GuessRate}** coups en moyenne`)
 	    .addFields(
 	    	{ name: '1 coup', value: `${user.One}`, inline: true },
 	    	{ name: '2 coup', value: `${user.Two}`, inline: true },
