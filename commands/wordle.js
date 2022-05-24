@@ -32,7 +32,6 @@ module.exports = {
     cooldown: 0,
     description: 'motus/sutom/wordle',
     async run(client, message, args, cmd){
-        console.log(picked)
         const db = await tags.findOne({ where: { userid: message.author.id } });
         if (!db) {
                 await tags.create({
@@ -164,9 +163,9 @@ module.exports = {
                 } else if (a === 6) {
                     await tags.update({ Six: sequelize.literal('Six + 1') }, { where: { userid: dmchannel.recipient.id }});
                 }
-                await tags.update({ GuessRate: sequelize.literal('(Six + Five + Four + Three + Two + One)/6') }, { where: { userid: dmchannel.recipient.id }});
-                console.log(await tags.findAll({ raw: true }))
+                await tags.update({ GuessRate: sequelize.literal('(Six*6 + Five*5 + Four*4 + Three*3 + Two*2 + One)/Wins') }, { where: { userid: dmchannel.recipient.id }});
                 
+                console.log(await tags.findAll({ raw: true }))     
             })
         })
     }
