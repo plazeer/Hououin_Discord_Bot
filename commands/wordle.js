@@ -11,7 +11,7 @@ const sequelize = new Sequelize('database', 'user', 'password', {
 	// SQLite only
 	storage: 'database.sqlite',
 });
-const tags = require('./database/DBTable.js')(sequelize, Sequelize.DataTypes);
+const tags = require('../DBTable.js')(sequelize, Sequelize.DataTypes);
 let result = [];
 let picked;
 var night = new Date();
@@ -19,7 +19,7 @@ var now = new Date();
 var cd = night - now
 night.setHours(24,0,0,0); 
 
-fs.createReadStream('wordle.csv')
+fs.createReadStream('./txt/wordle.csv')
   .pipe(csv())
   .on('data', (data) => result.push(data.Word))
   .on('end', () => {
