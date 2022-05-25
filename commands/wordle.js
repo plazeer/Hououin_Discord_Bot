@@ -50,12 +50,11 @@ module.exports = {
         }
         let mot = picked.split(/(?!$)/u)
         let mot_masque = picked.split(/(?!$)/u);
-        let mot2 = picked.split(/(?!$)/u);
         let x = 1;
         let a = 0;
         let total = [];
-        let arr = [];
-        let arr2 = [];
+        let arr_bon = [];
+        let arr_mauvais = [];
         let win = 0;
         mot.forEach(async i => {
             if(mot_masque.indexOf(i) !== -1) {
@@ -78,12 +77,11 @@ module.exports = {
                 if (msg.content.split('').length !== mot.length) return dmchannel.send(`${mot.length} lettres`)
                 let temp = await msg.content.toLowerCase().split('')
                 let temp2 = await msg.content.toLowerCase().split('')
+                let mot_temp = picked.split(/(?!$)/u);
                 let x = -1;
                 let y = -1;
-                let MauvaiseLettre = [];
                 let lettre = [];
                 let faux;
-                let histo;
                 let rouge;
                 let jaune;
                 for (let i = 0; i < mot.length; i++) {
@@ -92,42 +90,43 @@ module.exports = {
                         if(lettre.indexOf(`${rouge}: 🟥`) === -1) {
                             lettre.push(`${rouge}: 🟥`)
                         }
-                        arr.push(rouge.join(' '));
+                        arr_bon.push(rouge.join(' '));
+                        mot_temp.splice(i, 1, null);
                         temp.splice(i, 1, null);
-                        mot2.splice(i, 1, '...');
                     }
                 }
                 temp.forEach(i => {
+                    let count_mot_temp = mot_temp.filter(x => x==i).length;
+                    let count_temp = temp.filter(x => x==i).length;
                     x++
+                    if (i === mot[x]) return;
                     if(mot.indexOf(i) !== -1) {
-                        if (temp[x] === mot[x]) return;
-                        if (mot2.indexOf(i) === -1) return;
+                        if (count_mot_temp < count_temp) return temp.splice(x, 1, null);
+                        if (i === null) return;
                         jaune = temp2.splice(x, 1, '🟨');
-                        mot2.splice(i, 1, '...');
-                        temp.splice(i, 1, null);
                         if(lettre.indexOf(`${jaune}: 🟨`) === -1) {
                             lettre.push(`${jaune}: 🟨`)
                         }
-                        arr.push(jaune.join(' '));
+                        console.log("log")
+                        arr_bon.push(jaune.join(' '));
+                        mot_temp.splice(x, 1, null);
                     }
                 })
                 temp2.forEach(i => {
                     y++
-                    histo = temp2;
                     if(i === '🟨')return;
                     if(i === '🟥')return;
-                    faux = histo.splice(y, 1, '⬛')
-                    if (arr.indexOf(faux.join(' ')) !== -1) return;
-                    if (arr2.indexOf(faux.join(' ')) === -1) {
-                        MauvaiseLettre.push(`${faux}: ⬛`)
-                        arr2.push(faux.join(' '))
+                    faux = temp2.splice(y, 1, '⬛')
+                    if (arr_bon.indexOf(faux.join(' ')) !== -1) return;
+                    if (arr_mauvais.indexOf(faux.join(' ')) === -1) {
+                        arr_mauvais.push(faux.join(' '))
                     }
 
                 })
                     dmchannel.send(temp2.join(' '));
                     dmchannel.send(`Lettres trouvées : ${lettre.join(' ')}`)
-                    dmchannel.send(`Mauvaise lettre : ${arr2.join(' | ')}`)
-                    total.push(histo.join(''))
+                    dmchannel.send(`Mauvaise lettre : ${arr_mauvais.join(' | ')}`)
+                    total.push(temp2.join(''))
                 if (msg.content === mot.join('')) {
                     win = 1;
                     a++;
