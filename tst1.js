@@ -27,8 +27,8 @@ client.on("messageCreate", function (message) {
   var time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
   const fs = require("fs");
   let word = message.content
-  fs.appendFileSync('data.txt', word+"|");
-  fs.appendFileSync('markovlog.txt', word+" | a été ajouté dans la base de données le "+d.toLocaleDateString('fr-FR')+" "+time+"\n");
+  fs.appendFileSync('./txt/data.txt', word+"|");
+  fs.appendFileSync('./txt/markovlog.txt', word+" | a été ajouté dans la base de données le "+d.toLocaleDateString('fr-FR')+" "+time+"\n");
 });
 
 client.on("messageCreate", function (message) {
