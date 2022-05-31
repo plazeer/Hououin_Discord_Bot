@@ -1,5 +1,3 @@
-const { disco } = require("../functions/punition_roulette");
-
 const cooldown = new Set();
 module.exports = {
     name: 'degage',
@@ -24,7 +22,7 @@ module.exports = {
     }
 }
 
-exports.disco = async function(user){
+async function disco (user){
     console.log("déconnecter ============================");
     console.log(user.user.username+" s'est fait déco")
     user.voice.disconnect();  //déco du vc
