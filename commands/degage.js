@@ -1,4 +1,6 @@
 const cooldown = new Set();
+const humanizeduration = require("humanize-duration")
+
 module.exports = {
     name: 'degage',
     aliases: ['dg'],
@@ -10,6 +12,12 @@ module.exports = {
         const guild = client.guilds.cache.get(message.guild.id);
         guild.members.fetch().then((members) => {});
         let username = await guild.members.fetch(message.author.id)
+        if (cooldown.has(member)) {
+            message.channel.send("attend bozo");
+            message.delete();
+            return;
+        } 
+        cooldown.add(member);
         await message.guild.channels.cache.get(username.voice.channel.id).members.forEach((member) => {
             if (member.id === message.author.id) return;
             list.push(member);
