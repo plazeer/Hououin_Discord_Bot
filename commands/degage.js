@@ -5,13 +5,14 @@ module.exports = {
     name: 'degage',
     aliases: ['dg'],
     cooldown: 0,
-    description: 'motus/sutom/wordle',
+    description: 'déco un mec du vocal',
     async run(client, message, args, cmd){
         let list = [];
         const member = message.author.id;
         const guild = client.guilds.cache.get(message.guild.id);
         guild.members.fetch().then((members) => {});
         let username = await guild.members.fetch(message.author.id)
+        if(!username.voice.channel) return message.channel.send("t'es pas en vocal gros con")
         if (cooldown.has(member)) {
             message.channel.send("attend bozo");
             message.delete();

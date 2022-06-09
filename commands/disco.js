@@ -2,7 +2,7 @@ module.exports = {
     name: 'disco',
     aliases: ['d'],
     cooldown: 0,
-    description: 'déconnection',
+    description: 'déconnexion',
     async run(client, message, args, cmd){
         if (message.author.id !== client.config.ownerID) return;
         else {

@@ -27,7 +27,7 @@ module.exports = {
                     files: ([`./image/face.png`])
                 });
                 setTimeout(() =>{ 
-                    if (args[0] === 'pile') {
+                    if (args[0] === 'face') {
                         pf.reply("<@"+message.author.id+"> bien joué")
                     } else pf.reply("<@"+message.author.id+"> nul")    
                 },  750)
