@@ -13,7 +13,6 @@ module.exports = {
         let j2 = await message.mentions.members.first().id;
         let j1 = await message.author.id;
         let participants = [];
-        let joueur = [];
         function shifumi(pierre, feuille, ciseaux) {
             this.pierre = pierre;
             this.feuille = feuille;
@@ -21,11 +20,8 @@ module.exports = {
           }
         punish = await message.channel.send({ content: 'Gage, celui qui a lancé le shifumi choisi.', components: [gage] });
         const filter1 = i => i.user.id === j1;
-        const collector1 = punish.createMessageComponentCollector({ filter1, time: 30000 });
-        collector1.on('collect', async i => {
-            if(joueur.indexOf(i.user.id) !== -1) return i.reply("Tu as deja fais ton choix");
-            if (joueur.length > 2) return i.reply("Il ya déja deux participants");
-            joueur.push(i.user.id);
+        await punish.awaitMessageComponent({ filter1, max: 1, componentType: 'BUTTON', time: 60000 })
+        .then(i => {
             if (i.customId === 'move') {
                 i.reply("<@"+i.user.id+"> le move de channel")
                 choix = 1;
@@ -48,10 +44,9 @@ module.exports = {
             if (i.customId === 'change_nick') {
                 i.reply("<@"+i.user.id+"> choisi le changement de pseudo")
                 choix = 5;
-
             }
-            if (joueur.length === 1) return collector1.stop();
-        });
+            punish.delete();
+        })
         reply = await message.reply({ content: 'shifumi', components: [row] });
         const collector2 = reply.createMessageComponentCollector({ time: 30000 });
         collector2.on('collect', async i => {
