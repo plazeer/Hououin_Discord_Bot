@@ -19,7 +19,7 @@
     "enmap": "^5.8.6",
     "ffmpeg": "^0.0.4",
     "ffmpeg-static": "^4.4.0",
-    "formula-one-js": "^1.0.6",
+    "formula-one-js": "^1.1.12",
     "fs": "0.0.1-security",
     "humanize-duration": "^3.27.1",
     "ms": "^2.1.3",
